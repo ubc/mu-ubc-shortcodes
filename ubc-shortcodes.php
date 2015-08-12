@@ -262,7 +262,7 @@ class UBC_Shortcodes {
 
 	public function post_updated_messages__output_warning_about_shortcodes_in_atts( $messages ) {
 
-		if ( 'yes' !== get_post_meta( absint( $_GET['post'] ), 'ubc_scia', true ) ) {
+		if ( ! isset( $_GET['post'] ) || 'yes' !== get_post_meta( absint( $_GET['post'] ), 'ubc_scia', true ) ) {
 			return $messages;
 		}
 
