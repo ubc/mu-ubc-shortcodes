@@ -100,6 +100,9 @@ class UBC_Shortcodes {
 				'link_before' => '',
 				'link_after' => '',
 				'link_target' => '_self',
+				'link_is_id' => '',
+				'link_is_cf' => '',
+				'link_prefix' => '',
 			),
 			$attr,
 			'link_with_content'
@@ -113,8 +116,32 @@ class UBC_Shortcodes {
 			$content .= wp_kses_post( $attr['link_before'] );
 		}
 
+		// Build the actual href. If we don't have link_is_id or link_is_cf then it's just the_permalink
+		// But we could potentially still have a prefix
+		$href = '';
+
+		// Do we have a prefix, if so, start with that
+		if ( ! empty( $attr['link_prefix'] ) ) {
+			$href .= $attr['link_prefix'];
+		}
+
+		// If both id and shortcode empty, it's just the permalink
+		if ( empty( $attr['link_is_id'] ) && empty( $attr['link_is_cf'] ) ) {
+			$href .= $attr['link'];
+		}
+
+		// IF we're specifying the ID, then the link is the current post ID
+		if ( ! empty( $attr['link_is_id'] ) ) {
+			$href .= get_the_ID();
+		}
+
+		// If we are linking to the content of a shortcode (urgh) then grab the content of that shortcode and use it as the link
+		if ( ! empty( $attr['link_is_cf'] ) ) {
+			$href .= get_post_meta( get_the_ID(), esc_attr( $attr['link_is_cf'] ), true );
+		}
+
 		// Add the
-		$main_link = '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $attr['link'] ) . '" title="' . esc_attr( $attr['content'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">' . wp_kses_post( $attr['content'] ) . '</a>';
+		$main_link = '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $href ) . '" title="' . esc_attr( $attr['content'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">' . wp_kses_post( $attr['content'] ) . '</a>';
 
 		$content .= $main_link;
 
