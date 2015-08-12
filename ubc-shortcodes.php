@@ -150,12 +150,12 @@ class UBC_Shortcodes {
 				'with_permalink' => '',
 				'link_class' => '',
 				'link_target' => '_self',
-				'img_url' => '',
+				'img_url' => wp_get_attachment_url( get_post_thumbnail_id( get_the_ID() ) ),
 				'img_class' => '',
 				'img_alt' => '',
 				'img_before' => '',
 				'img_after' => '',
-				'img_size' => 'full'
+				'img_size' => ''
 			),
 			$attr,
 			'image_with_src'
@@ -164,8 +164,8 @@ class UBC_Shortcodes {
 		// Start fresh
 		$content = '';
 		
-		// Change image size if using featured image
-		if ( empty($attr['img_url']) ) {
+		// Use post thumbnail when image size is set
+		if ( !empty($attr['img_size']) ) {
 			$attr['img_url'] = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), esc_attr($attr['img_size']) )[0];
 		} 
 		
