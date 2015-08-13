@@ -182,7 +182,7 @@ class UBC_Shortcodes {
 				'img_alt' => '',
 				'img_before' => '',
 				'img_after' => '',
-				'img_size' => ''
+				'img_size' => '',
 			),
 			$attr,
 			'image_with_src'
@@ -192,8 +192,8 @@ class UBC_Shortcodes {
 		$content = '';
 		
 		// Use post thumbnail when image size is set
-		if ( !empty($attr['img_size']) ) {
-			$attr['img_url'] = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), esc_attr($attr['img_size']) )[0];
+		if ( ! empty( $attr['img_size'] ) ) {
+			$attr['img_url'] = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), esc_attr( $attr['img_size'] ) )[0];
 		} 
 		
 		// If we are given a link, output an <a> tag
