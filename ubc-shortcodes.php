@@ -96,6 +96,7 @@ class UBC_Shortcodes {
 			array(
 				'link' => get_the_permalink(),
 				'content' => get_the_title(),
+				'content_is_cf'	=> '',
 				'link_class' => '',
 				'link_before' => '',
 				'link_after' => '',
@@ -114,6 +115,19 @@ class UBC_Shortcodes {
 		// If there's something to add before the link
 		if ( ! empty( $attr['link_before'] ) ) {
 			$content .= wp_kses_post( $attr['link_before'] );
+		}
+
+		// Empty variable to set link content $attr['content']
+		$link_content = '';
+
+		// If content_is_cf is empty then attr default is get_the_title()
+		if ( empty( $attr['content_is_cf'] ) ) {
+			$link_content .= $attr['content'];
+		}
+
+		//If content_is_cf then Link is based off customfield
+		if ( ! empty( $attr['content_is_cf'] ) ) {
+			$link_content .= get_post_meta( get_the_ID(), esc_attr( $attr['content_is_cf'] ), true );
 		}
 
 		// Build the actual href. If we don't have link_is_id or link_is_cf then it's just the_permalink
@@ -141,7 +155,7 @@ class UBC_Shortcodes {
 		}
 
 		// Add the
-		$main_link = '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $href ) . '" title="' . esc_attr( $attr['content'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">' . wp_kses_post( $attr['content'] ) . '</a>';
+		$main_link = '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $href ) . '" title="' . esc_attr( $attr['content'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">' . wp_kses_post( $link_content ) . '</a>';
 
 		$content .= $main_link;
 
