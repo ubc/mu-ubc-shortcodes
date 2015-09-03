@@ -195,8 +195,10 @@ class UBC_Shortcodes {
 				'link' => '',
 				'link_title' => get_the_title(),
 				'with_permalink' => '',
+				'after_permalink' => '',
 				'link_class' => '',
 				'link_target' => '_self',
+				'link_is_cf' => '',
 				'img_url' => wp_get_attachment_url( get_post_thumbnail_id( get_the_ID() ) ),
 				'img_class' => '',
 				'img_alt' => '',
@@ -210,6 +212,7 @@ class UBC_Shortcodes {
 
 		// Start fresh
 		$content = '';
+		$custom_field = '';
 		
 		// Use post thumbnail when image size is set
 		if ( ! empty( $attr['img_size'] ) ) {
@@ -217,16 +220,24 @@ class UBC_Shortcodes {
 		} 
 		
 		// If we are given a link, output an <a> tag
-		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) ) {
+		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) || ! empty( $attr['link_is_cf'] ) ) {
 
 			// If both are specified, with_permalink takes over, or if we're just adding a permalink
 			if ( ( ! empty( $attr['link'] ) && ! empty( $attr['with_permalink'] ) ) || ! empty( $attr['with_permalink'] ) ) {
-				$content .= '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( get_the_permalink() ) . '" title="' . esc_attr( $attr['link_title'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">';
+				$content .= '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( get_the_permalink() ) . esc_url( $attr['after_permalink'] ) . '" title="' . esc_attr( $attr['link_title'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">';
 			}
 
 			// If we're specifying a link...
 			if ( ! empty( $attr['link'] ) && empty( $attr['with_permalink'] ) ) {
 				$content .= '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $attr['link'] ) . '" title="' . esc_attr( $attr['link_title'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">';
+			}
+
+			// If we're specifying a custom field...
+			if ( ! empty( $attr['link_is_cf'] ) &&  empty( $attr['link'] ) && empty( $attr['with_permalink'] ) ) {
+
+				$custom_field .= get_post_meta( get_the_ID(), esc_attr( $attr['link_is_cf'] ), true );
+
+				$content .= '<a target="' . esc_attr( $attr['link_target'] ) . '" href="' . esc_url( $custom_field ) . '" title="' . esc_attr( $attr['link_title'] ) . '" class="' . esc_html( $attr['link_class'] ) . '">';
 			}
 		}
 
