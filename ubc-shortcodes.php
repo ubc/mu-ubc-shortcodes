@@ -104,6 +104,7 @@ class UBC_Shortcodes {
 				'link_is_id' => '',
 				'link_is_cf' => '',
 				'link_prefix' => '',
+				'after_url'	=> '',
 			),
 			$attr,
 			'link_with_content'
@@ -139,8 +140,13 @@ class UBC_Shortcodes {
 			$href .= $attr['link_prefix'];
 		}
 
+		// Do we have an after url set?, if so, add the permalink and append the after url content
+		if ( ! empty( $attr['after_url'] ) ) {
+			$href .= esc_url( $attr['link'] ) . esc_attr( $attr['after_url'] );
+		}
+
 		// If both id and shortcode empty, it's just the permalink
-		if ( empty( $attr['link_is_id'] ) && empty( $attr['link_is_cf'] ) ) {
+		if ( empty( $attr['link_is_id'] ) && empty( $attr['link_is_cf'] ) && empty( $attr['after_url'] ) ) {
 			$href .= $attr['link'];
 		}
 
