@@ -156,7 +156,7 @@ class UBC_Shortcodes {
 		}
 
 		// If we are linking to the content of a shortcode (urgh) then grab the content of that shortcode and use it as the link
-		if ( ! empty( $attr['link_is_cf'] ) ) {
+		if ( ! empty( $attr['link_is_cf'] ) && empty( $attr['after_url'] ) ) {
 			$href .= get_post_meta( get_the_ID(), esc_attr( $attr['link_is_cf'] ), true );
 		}
 
