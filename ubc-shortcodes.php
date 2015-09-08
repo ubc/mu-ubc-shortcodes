@@ -200,8 +200,11 @@ class UBC_Shortcodes {
 				'link_target' => '_self',
 				'link_is_cf' => '',
 				'img_url' => wp_get_attachment_url( get_post_thumbnail_id( get_the_ID() ) ),
+				'img_url_is_cf' => '',
 				'img_class' => '',
+				'img_class_is_cf' => '',
 				'img_alt' => '',
+				'img_alt_is_cf' => '',
 				'img_before' => '',
 				'img_after' => '',
 				'img_size' => '',
@@ -217,7 +220,22 @@ class UBC_Shortcodes {
 		// Use post thumbnail when image size is set
 		if ( ! empty( $attr['img_size'] ) ) {
 			$attr['img_url'] = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), esc_attr( $attr['img_size'] ) )[0];
+		}
+				
+		// When img_url_is_cf is set, image src will be using value from custom field, img_size and img_url attributes will both be ignored.
+		if ( ! empty( $attr['img_url_is_cf'] ) ) {
+			$attr['img_url'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_url_is_cf'] ), true );
 		} 
+		
+		// When img_class_is_cf is set, image class will be using value from custom field, img_class attribute will be ignored.
+		if ( ! empty( $attr['img_class_is_cf'] ) ) {
+			$attr['img_class'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_class_is_cf'] ), true );
+		}
+		
+		// When img_alt_is_cf is set, image alt description will be using value from custom field, img_alt attribute will be ignored.
+		if ( ! empty( $attr['img_alt_is_cf'] ) ) {
+			$attr['img_alt'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_alt_is_cf'] ), true );
+		}
 		
 		// If we are given a link, output an <a> tag
 		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) || ! empty( $attr['link_is_cf'] ) ) {
