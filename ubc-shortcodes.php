@@ -6,7 +6,7 @@
  * Plugin Name:       UBC Shortcodes
  * Plugin URI:        http://ctlt.ubc.ca/
  * Description:       Moving shortcodes out of the CLF and into a plugin. Also adds extra shortcodes to deal with the 4.2.3 update
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Richard Tape
  * Author URI:        http://blogs.ubc.ca/mbcx9rvt
  * License:           GPL-2.0+
@@ -216,27 +216,27 @@ class UBC_Shortcodes {
 		// Start fresh
 		$content = '';
 		$custom_field = '';
-		
+
 		// Use post thumbnail when image size is set
 		if ( ! empty( $attr['img_size'] ) ) {
 			$attr['img_url'] = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), esc_attr( $attr['img_size'] ) )[0];
 		}
-				
+
 		// When img_url_is_cf is set, image src will be using value from custom field, img_size and img_url attributes will both be ignored.
 		if ( ! empty( $attr['img_url_is_cf'] ) ) {
 			$attr['img_url'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_url_is_cf'] ), true );
-		} 
-		
+		}
+
 		// When img_class_is_cf is set, image class will be using value from custom field, img_class attribute will be ignored.
 		if ( ! empty( $attr['img_class_is_cf'] ) ) {
 			$attr['img_class'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_class_is_cf'] ), true );
 		}
-		
+
 		// When img_alt_is_cf is set, image alt description will be using value from custom field, img_alt attribute will be ignored.
 		if ( ! empty( $attr['img_alt_is_cf'] ) ) {
 			$attr['img_alt'] = get_post_meta( get_the_ID(), esc_attr( $attr['img_alt_is_cf'] ), true );
 		}
-		
+
 		// If we are given a link, output an <a> tag
 		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) || ! empty( $attr['link_is_cf'] ) ) {
 
