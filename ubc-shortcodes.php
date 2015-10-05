@@ -97,6 +97,7 @@ class UBC_Shortcodes {
 				'link' => get_the_permalink(),
 				'content' => get_the_title(),
 				'content_is_cf'	=> '',
+				'content_is_excerpt' => '',
 				'link_class' => '',
 				'link_before' => '',
 				'link_after' => '',
@@ -121,14 +122,18 @@ class UBC_Shortcodes {
 		// Empty variable to set link content $attr['content']
 		$link_content = '';
 
-		// If content_is_cf is empty then attr default is get_the_title()
-		if ( empty( $attr['content_is_cf'] ) ) {
+		// If content_is_cf or content_is_excerpt is empty then attr default is get_the_title()
+		if ( empty( $attr['content_is_cf'] ) && empty( $attr['content_is_excerpt'] ) ) {
 			$link_content .= $attr['content'];
 		}
 
 		//If content_is_cf then Link is based off customfield
 		if ( ! empty( $attr['content_is_cf'] ) ) {
 			$link_content .= get_post_meta( get_the_ID(), esc_attr( $attr['content_is_cf'] ), true );
+		}
+		
+		if ( ! empty( $attr['content_is_excerpt'] ) ) {
+			$link_content .= get_the_excerpt();
 		}
 
 		// Build the actual href. If we don't have link_is_id or link_is_cf then it's just the_permalink
