@@ -6,7 +6,7 @@
  * Plugin Name:       UBC Shortcodes
  * Plugin URI:        http://ctlt.ubc.ca/
  * Description:       Moving shortcodes out of the CLF and into a plugin. Also adds extra shortcodes to deal with the 4.2.3 update
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            Richard Tape
  * Author URI:        http://blogs.ubc.ca/mbcx9rvt
  * License:           GPL-2.0+
