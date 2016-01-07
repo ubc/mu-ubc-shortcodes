@@ -131,7 +131,7 @@ class UBC_Shortcodes {
 		if ( ! empty( $attr['content_is_cf'] ) ) {
 			$link_content .= get_post_meta( get_the_ID(), esc_attr( $attr['content_is_cf'] ), true );
 		}
-		
+
 		if ( ! empty( $attr['content_is_excerpt'] ) ) {
 			$link_content .= get_the_excerpt();
 		}
@@ -278,7 +278,7 @@ class UBC_Shortcodes {
 		}
 
 		// If we have a link, we need to close it out
-		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) ) {
+		if ( ! empty( $attr['link'] ) || ! empty( $attr['with_permalink'] ) || ! empty( $attr['link_is_cf'] ) ) {
 			$content .= '</a>';
 		}
 
